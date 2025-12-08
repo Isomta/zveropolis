@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Флеш - Самый неторопливый сладкоежка Зверополиса</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+<body>
+    <!-- Шапка с навигацией -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="img/flash-logo.png" alt="Логотип Флеша" class="logo-img">
+                    <span class="logo-text">Флеш</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Главная</a></li>
+                    <li><a href="#story" class="nav-link">История</a></li>
+                    <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                    <li><a href="#contact" class="nav-link">Контакты</a></li>
+                </ul>
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Главный экран -->
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="slow-type">Флеш (Flash)<br><span class="subtitle">Самый быстрый... в своем ритме</span></h1>
+                    <p class="hero-description">Приветик... я... Флеш. Добро... пожаловать... на... мою... страничку. Я... работаю... клерком... в... Департаменте... Выдачи... Транспортных... Средств... (DMV)... в... солнечном... Зверополисе.</p>
+                    <div class="quote">
+                        <p>«Не спеша. Не сдаваясь. С пончиком в лапе.»</p>
+                    </div>
+                    <a href="#story" class="cta-button">Узнать мою историю <i class="fas fa-chevron-down"></i></a>
+                </div>
+                <div class="hero-image">
+                    <img src="img/flash-main.jpg" alt="Флеш улыбается" id="main-flash" class="flash-img">
+                    <div class="speech-bubble" id="speechBubble">
+                        Привет...<br>Как... дела...?
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-down">
+                <i class="fas fa-chevron-down bounce"></i>
+            </div>
+        </section>
+
+        <!-- Раздел истории -->
+        <section id="story" class="story">
+            <div class="container">
+                <h2>Как я стал звездой DMV<br><span class="highlight">(и интернет-мемов)</span></h2>
+                <div class="story-content">
+                    <div class="story-image">
+                        <img src="img/flash-work.jpg" alt="Флеш за работой в DMV" class="story-img">
+                    </div>
+                    <div class="story-text">
+                        <p>Все... началось... в... пышных... тропических... лесах,... где... я... научился... ценить... покой... и... сочную... листву.</p>
+                        <p>Переехав... в... Зверополис... в... поисках... спокойной... работы,... я... нашел... свое... призвание... в... DMV... Здесь... мой... талант... к... неторопливой,... методичной... работе... был... оценен... по... достоинству.</p>
+                        <p>Однажды... мою... будничную... смену... посетили... офицер... Джуди... Хоппс... и... ее... «буйный»... напарник... Ник... Уайльд. Их... спешка... по... делу... об... исчезновениях... хищников... привела... к... одному... из... самых... веселых... и... запоминающихся... моментов... моей... карьеры.</p>
+                        <div class="achievement">
+                            <i class="fas fa-trophy"></i>
+                            <span>Звание «Самый невозмутимый сотрудник месяца» — 12 месяцев подряд</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Галерея -->
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <h2>Моя галерея<span class="slow-dots">...</span></h2>
+                <p class="section-subtitle">Жизнь в кадрах. Очень медленных кадрах.</p>
+                
+                <div class="gallery-container">
+                    <!-- Изображения будут загружены через JS -->
+                </div>
+                
+                <div class="gallery-controls">
+                    <button id="prevBtn" class="gallery-btn"><i class="fas fa-chevron-left"></i> Назад</button>
+                    <div class="gallery-counter">
+                        <span id="currentSlide">1</span> / <span id="totalSlides">5</span>
+                    </div>
+                    <button id="nextBtn" class="gallery-btn">Вперед <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Свяжись со мной<span class="slow-dots">...</span> если успеешь</h2>
+                <p class="section-subtitle">Я не часто проверяю почту, но ты всегда можешь оставить сообщение. Я отвечу. Обещаю. Возможно не сразу.</p>
+                
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Электронная почта</h3>
+                        <p>flash.sloth@zootopia.dmv.gov</p>
+                        <p class="contact-note">Официальная почта для деловых предложений и вопросов о номерных знаках</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <h3>Инстаграм</h3>
+                        <p>@flash.the.sloth.official</p>
+                        <p class="contact-note">Фотографии пончиков, облаков за окном офиса. Подписи из одного слова. Очень редкие посты.</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-address-card"></i>
+                        </div>
+                        <h3>Адрес</h3>
+                        <p>Департамент Выдачи Транспортных Средств, Район Саванна Центр, Зверополис</p>
+                        <p class="contact-note">Приходите в гости! Живая очередь двигается быстрее, чем онлайн-чат.</p>
+                    </div>
+                </div>
+                
+                <div class="donut-card">
+                    <div class="donut-icon">
+                        <i class="fas fa-donut"></i>
+                    </div>
+                    <div class="donut-info">
+                        <h3>Пончиковая карта лояльности</h3>
+                        <p>Карта «Пончики на радость» — моя самая ценная карта. Накопил уже на целого глазированного барашка.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="donutProgress"></div>
+                        </div>
+                        <p class="progress-text">Прогресс: <span id="progressPercent">72%</span></p>
+                    </div>
+                </div>
+                
+                <div class="joke-button-container">
+                    <button id="jokeButton" class="joke-button">
+                        <i class="fas fa-bolt"></i> Нажми для мгновенного ответа!
+                    </button>
+                    <div id="jokeReaction" class="joke-reaction"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="img/flash-logo.png" alt="Логотип Флеша" class="footer-logo-img">
+                    <span class="footer-logo-text">Флеш</span>
+                </div>
+                <p class="footer-text">Официальная страница самого неторопливого сладкоежки Зверополиса</p>
+                <p class="copyright">© 2023 Все права защищены. Отвечаю на письма с той же скоростью, с какой живу.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
