@@ -1,11 +1,16 @@
-// Мобильное меню
-const hamburger = document.getElementById('hamburger');
+// ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+let currentSlide = 0;
+let progressValue = 0;
+const totalSlides = 2;
+
+// ===== МОБИЛЬНОЕ МЕНЮ =====
+const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
+menuToggle.addEventListener('click', () => {
     navMenu.classList.toggle('active');
-    hamburger.innerHTML = navMenu.classList.contains('active') 
-        ? '<i class="fas fa-times"></i>' 
+    menuToggle.innerHTML = navMenu.classList.contains('active')
+        ? '<i class="fas fa-times"></i>'
         : '<i class="fas fa-bars"></i>';
 });
 
@@ -13,11 +18,11 @@ hamburger.addEventListener('click', () => {
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
-        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
     });
 });
 
-// Плавная прокрутка для якорных ссылок
+// ===== ПЛАВНАЯ ПРОКРУТКА =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -27,227 +32,233 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
+            const offsetTop = targetElement.offsetTop - 80;
+            
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: offsetTop,
                 behavior: 'smooth'
             });
         }
     });
 });
 
-// Анимация облачка с речью
+// ===== ОБЛАЧКО С РЕЧЬЮ =====
 const speechBubble = document.getElementById('speechBubble');
-const messages = [
-    "Привет...<br>Как... дела...?",
-    "Любишь... пончики...?",
-    "Работа... зовет...<br>Через... час...",
-    "Ты... тоже... любишь... медленно...?",
-    "Добро... пожаловать...!"
+const phrases = [
+    "Привет! Как дела?",
+    "Любишь пончики?",
+    "Работа зовет...",
+    "Не торопись!",
+    "Улыбнись!",
+    "Все будет хорошо..."
 ];
 
-let messageIndex = 0;
-setInterval(() => {
-    speechBubble.style.opacity = 0;
+let phraseIndex = 0;
+
+function changePhrase() {
+    speechBubble.style.opacity = '0';
     
     setTimeout(() => {
-        messageIndex = (messageIndex + 1) % messages.length;
-        speechBubble.innerHTML = messages[messageIndex];
-        speechBubble.style.opacity = 1;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        speechBubble.innerHTML = phrases[phraseIndex];
+        speechBubble.style.opacity = '1';
     }, 500);
-}, 5000);
+}
 
-// Галерея
-const galleryData = [
-    {
-        id: 1,
-        img: "img/flash-work.jpg",
-        caption: "Мой офис. Мой трон. Мой... компьютер... который... еще... грузится."
-    },
-    {
-        id: 2,
-        img: "img/flash-laugh.jpg", 
-        caption: "Коллеги... оценили... мой... юмор. Через... несколько... минут."
-    },
-    {
-        id: 3,
-        img: "img/flash-car.jpg",
-        caption: "Экстренный... вызов... на... пончик. Скорость... — это... состояние... души."
-    },
-    {
-        id: 4,
-        img: "img/flash-donut.jpg",
-        caption: "Топливо... для... чемпионов... неторопливости."
-    },
-    {
-        id: 5,
-        img: "img/flash-main.jpg",
-        caption: "Вот... я... какой! Улыбка... на... весь... день... (и... на... завтра)."
-    }
-];
+// Меняем фразу каждые 5 секунд
+setInterval(changePhrase, 5000);
 
-let currentSlide = 0;
-const galleryContainer = document.querySelector('.gallery-container');
-const currentSlideElement = document.getElementById('currentSlide');
-const totalSlidesElement = document.getElementById('totalSlides');
+// ===== ГАЛЕРЕЯ =====
+const slides = document.querySelectorAll('.gallery-slide');
+const dots = document.querySelectorAll('.dot');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-// Инициализация галереи
-function initGallery() {
-    totalSlidesElement.textContent = galleryData.length;
-    
-    galleryData.forEach((slide, index) => {
-        const slideElement = document.createElement('div');
-        slideElement.className = 'gallery-slide';
-        slideElement.style.transform = `translateX(${index * 100}%)`;
-        
-        const imgElement = document.createElement('img');
-        imgElement.src = slide.img;
-        imgElement.alt = `Флеш - изображение ${slide.id}`;
-        imgElement.className = 'gallery-img';
-        
-        const captionElement = document.createElement('p');
-        captionElement.className = 'slide-caption';
-        captionElement.innerHTML = slide.caption;
-        
-        slideElement.appendChild(imgElement);
-        slideElement.appendChild(captionElement);
-        galleryContainer.appendChild(slideElement);
+// Показ слайда
+function showSlide(index) {
+    // Скрываем все слайды
+    slides.forEach(slide => {
+        slide.classList.remove('active');
     });
     
-    updateGallery();
-}
-
-// Обновление галереи
-function updateGallery() {
-    const slides = document.querySelectorAll('.gallery-slide');
-    
-    slides.forEach((slide, index) => {
-        slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
+    // Убираем активный класс у всех точек
+    dots.forEach(dot => {
+        dot.classList.remove('active');
     });
     
-    currentSlideElement.textContent = currentSlide + 1;
+    // Показываем текущий слайд
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+    currentSlide = index;
 }
 
 // Следующий слайд
-nextBtn.addEventListener('click', () => {
-    currentSlide = (currentSlide + 1) % galleryData.length;
-    updateGallery();
-});
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+}
 
 // Предыдущий слайд
-prevBtn.addEventListener('click', () => {
-    currentSlide = (currentSlide - 1 + galleryData.length) % galleryData.length;
-    updateGallery();
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlide);
+}
+
+// Клики по кнопкам
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+
+// Клики по точкам
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        showSlide(index);
+    });
 });
 
 // Автопрокрутка галереи
-let galleryInterval = setInterval(() => {
-    currentSlide = (currentSlide + 1) % galleryData.length;
-    updateGallery();
-}, 8000);
+let galleryInterval = setInterval(nextSlide, 8000);
 
 // Остановка автопрокрутки при наведении
+const galleryContainer = document.querySelector('.gallery-container');
 galleryContainer.addEventListener('mouseenter', () => {
     clearInterval(galleryInterval);
 });
 
 galleryContainer.addEventListener('mouseleave', () => {
-    galleryInterval = setInterval(() => {
-        currentSlide = (currentSlide + 1) % galleryData.length;
-        updateGallery();
-    }, 8000);
+    galleryInterval = setInterval(nextSlide, 8000);
 });
 
-// Кнопка шутки
-const jokeButton = document.getElementById('jokeButton');
-const jokeReaction = document.getElementById('jokeReaction');
-const jokeReactions = [
-    { text: "Флеш медленно подмигивает...", icon: "fas fa-eye", delay: 1000 },
-    { text: "Флеш думает о пончике...", icon: "fas fa-donut", delay: 2000 },
-    { text: "Флеш начинает печатать ответ...", icon: "fas fa-keyboard", delay: 3000 },
-    { text: "Ответ почти готов... еще чуть-чуть...", icon: "fas fa-hourglass-half", delay: 4000 },
-    { text: "Флеш улыбается и машет лапой!<br>Вот он, мгновенный ответ!", icon: "fas fa-check-circle", delay: 5000 }
-];
-
-jokeButton.addEventListener('click', function() {
-    // Блокируем кнопку на время анимации
-    jokeButton.disabled = true;
-    jokeButton.style.opacity = "0.7";
-    jokeReaction.innerHTML = "";
-    
-    // Показываем реакции по очереди
-    jokeReactions.forEach((reaction, index) => {
-        setTimeout(() => {
-            jokeReaction.innerHTML = `
-                <div class="reaction-step">
-                    <i class="${reaction.icon}"></i>
-                    <p>${reaction.text}</p>
-                </div>
-            `;
-            
-            // Последняя реакция - разблокируем кнопку
-            if (index === jokeReactions.length - 1) {
-                setTimeout(() => {
-                    jokeButton.disabled = false;
-                    jokeButton.style.opacity = "1";
-                }, 3000);
-            }
-        }, reaction.delay);
-    });
-});
-
-// Анимация прогресс-бара
-const donutProgress = document.getElementById('donutProgress');
+// ===== ПРОГРЕСС-БАР ПОНЧИКОВ =====
+const progressFill = document.getElementById('progressFill');
 const progressPercent = document.getElementById('progressPercent');
 
-function animateProgressBar() {
+function animateProgress() {
     let width = 0;
-    const targetWidth = 72;
-    const interval = setInterval(() => {
+    const targetWidth = 72; // 72%
+    
+    const timer = setInterval(() => {
         if (width >= targetWidth) {
-            clearInterval(interval);
+            clearInterval(timer);
         } else {
             width++;
-            donutProgress.style.width = width + '%';
+            progressFill.style.width = width + '%';
             progressPercent.textContent = width + '%';
         }
     }, 30);
 }
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initGallery();
-    animateProgressBar();
+// ===== КНОПКА ШУТКИ =====
+const jokeBtn = document.getElementById('jokeBtn');
+const jokeResponse = document.getElementById('jokeResponse');
+
+const jokeSteps = [
+    { text: "Флеш медленно открывает глаза...", delay: 800, icon: "fas fa-eye" },
+    { text: "Думает о твоем сообщении...", delay: 1600, icon: "fas fa-brain" },
+    { text: "Решает ответить...", delay: 2400, icon: "fas fa-check" },
+    { text: "Начинает печатать...", delay: 3200, icon: "fas fa-keyboard" },
+    { text: "Почти готово...", delay: 4000, icon: "fas fa-hourglass-half" },
+    { text: "<strong>Готово! 🎉</strong><br>Флеш улыбается и машет лапой!", delay: 4800, icon: "fas fa-hand-wave" }
+];
+
+jokeBtn.addEventListener('click', function() {
+    // Блокируем кнопку
+    jokeBtn.disabled = true;
+    jokeBtn.style.opacity = '0.7';
+    jokeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Жди ответа...</span>';
     
-    // Анимация появления элементов при скролле
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    // Очищаем предыдущий ответ
+    jokeResponse.innerHTML = '';
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
+    // Показываем шаги по очереди
+    jokeSteps.forEach((step, index) => {
+        setTimeout(() => {
+            const stepElement = document.createElement('div');
+            stepElement.className = 'joke-step';
+            stepElement.innerHTML = `
+                <i class="${step.icon}"></i>
+                <span>${step.text}</span>
+            `;
+            jokeResponse.appendChild(stepElement);
+            
+            // Прокручиваем к последнему шагу
+            stepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // После последнего шага разблокируем кнопку
+            if (index === jokeSteps.length - 1) {
+                setTimeout(() => {
+                    jokeBtn.disabled = false;
+                    jokeBtn.style.opacity = '1';
+                    jokeBtn.innerHTML = '<i class="fas fa-bolt"></i><span>Нажми для мгновенного ответа!</span>';
+                }, 2000);
             }
-        });
-    }, observerOptions);
-    
-    // Наблюдаем за секциями
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
+        }, step.delay);
     });
 });
 
-// Изменение стиля навигации при скролле
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
+// ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ =====
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, observerOptions);
+
+// Наблюдаем за основными элементами
+document.querySelectorAll('.story-content, .gallery-container, .contact-cards').forEach(el => {
+    observer.observe(el);
+});
+
+// ===== ИЗМЕНЕНИЕ ШАПКИ ПРИ СКРОЛЛЕ =====
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.header');
     if (window.scrollY > 100) {
-        navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
     } else {
-        navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+        header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = 'var(--shadow)';
+    }
+});
+
+// ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
+document.addEventListener('DOMContentLoaded', () => {
+    // Показываем первый слайд
+    showSlide(0);
+    
+    // Запускаем анимацию прогресс-бара
+    setTimeout(animateProgress, 1000);
+    
+    // Добавляем анимацию появления элементов
+    document.querySelectorAll('section').forEach((section, index) => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            section.style.opacity = '1';
+            section.style.transform = 'translateY(0)';
+        }, 300 + index * 200);
+    });
+});
+
+// ===== КЛАВИАТУРНЫЕ СОКРАЩЕНИЯ =====
+document.addEventListener('keydown', (e) => {
+    // Стрелки для галереи
+    if (e.key === 'ArrowRight') {
+        nextSlide();
+    } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+    }
+    
+    // Пробел для шутки
+    if (e.key === ' ' && !jokeBtn.disabled) {
+        e.preventDefault();
+        jokeBtn.click();
     }
 });
