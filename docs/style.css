@@ -931,3 +931,44 @@ img {
         font-size: 1.2rem;
     }
 }
+
+
+/* фото */
+.compact-photo-container {
+  max-width: 500px;
+  margin: 15px auto;
+  padding: 0 10px;
+}
+
+.compact-frame {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: white;
+  border: 1px solid #e0e0e0; /* Добавил границу рамки */
+}
+
+.compact-image {
+  width: 100%; /* 100% от родительского контейнера */
+  height: auto; /* Сохраняет пропорции */
+  display: block;
+  object-fit: cover; /* Обеспечивает заполнение области */
+}
+
+.compact-caption {
+  padding: 12px;
+  border-top: 1px solid #f0f0f0; /* Разделитель между фото и текстом */
+}
+
+.compact-caption h4 {
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.compact-caption p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.3;
+}
